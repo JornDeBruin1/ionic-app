@@ -5,16 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { PickupCallsPageRoutingModule } from './pickup-calls-routing.module';
-
 import { PickupCallsPage } from './pickup-calls.page';
-
+import { ComponentsModule } from 'src/app/components/pickup-call-card/component.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PickupCallsPageRoutingModule
+    PickupCallsPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [PickupCallsPage]
+  declarations: [
+    PickupCallsPage
+ ]
 })
 export class PickupCallsPageModule {}
