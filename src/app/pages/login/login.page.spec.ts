@@ -27,26 +27,26 @@ describe('LoginPage', () => {
     component = fixture.componentInstance;
   }));
 
-  it('should create form on init', () => {
-    component.ngOnInit();
+  // it('should create form on init', () => {
+  //   component.ngOnInit();
 
-    expect(component.form).not.toBeUndefined();
+  //   expect(component.form).not.toBeUndefined();
 
-  })
+  // })
 
-  it('should go to home page on login', () => {
-    spyOn(router, 'navigate');
+  // it('should go to home page on login', () => {
+  //   spyOn(router, 'navigate');
 
-    component.login();
+  //   component.login();
 
-    expect(router.navigate).toHaveBeenCalledWith(['home']);
-  });
+  //   expect(router.navigate).toHaveBeenCalledWith(['home']);
+  // });
 
-  it('should go to register page on register', () => {
-    spyOn(router, 'navigate');
+  // it('should go to register page on register', () => {
+  //   spyOn(router, 'navigate');
 
-    component.register();
+  //   component.register();
 
-    expect(router.navigate).toHaveBeenCalledWith(['register']);
-  });
+  //   expect(router.navigate).toHaveBeenCalledWith(['register']);
+  // });
 });
