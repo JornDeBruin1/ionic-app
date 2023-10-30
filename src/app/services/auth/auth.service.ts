@@ -12,14 +12,19 @@ export class AuthService {
 
   recoverEmailPassword(email: string): Observable<void> {
     return new Observable<void>(observer => {
-    this.auth.sendPasswordResetEmail(email).then(()=>{
-      observer.next();
-      observer.complete();
-    }).catch(error => {
-      observer.error(error);
-      observer.complete();
-    })
-    })
+      console.log('Sending password reset email to:', email);
+      this.auth.sendPasswordResetEmail(email)
+        .then(() => {
+          console.log('Password reset email sent successfully.');
+          observer.next();
+          observer.complete();
+        })
+        .catch(error => {
+          console.error('Error sending password reset email:', error);
+          observer.error(error);
+          observer.complete();
+        });
+    });
   }
 
   login(email: string, password: string) : Observable<User>{
