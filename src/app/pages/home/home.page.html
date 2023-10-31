@@ -1,7 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="success">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-button (click) = "logout()">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Recycle</ion-title>
   </ion-toolbar>
@@ -9,11 +11,13 @@
 <ion-content [fullscreen]="true">
   <ion-list color="success">
     <ion-item color="success">
-      <ion-avatar slot="start">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-          alt=""
-        />
+      <ion-avatar (click)="changeImage()" slot="start">
+        <img *ngIf="profile?.['imageUrl']; else placeholder_avatar" [src]="profile?.['imageUrl']"/>
+        <ng-template #placeholder_avatar>
+          <div class="fallback">
+            <p>select avatar</p>
+          </div>
+        </ng-template>
       </ion-avatar>
       <ion-label>
         <h1>Jorn de Bruin</h1>
@@ -34,3 +38,5 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+<!--   src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+          alt="" --> 

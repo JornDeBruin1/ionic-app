@@ -11,7 +11,7 @@ export class AuthService {
 
   async register({ email, password }: { email: string, password: string }) {
     try{
-       createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
           this.auth,
           email,
           password
@@ -27,7 +27,7 @@ export class AuthService {
 
   async login({ email, password }: { email: string, password: string }) {
     try{
-      signInWithEmailAndPassword(
+     await signInWithEmailAndPassword(
          this.auth,
          email,
          password
@@ -40,25 +40,7 @@ export class AuthService {
   }
 
   logout(){
-return signOut(this.auth);
+    return signOut(this.auth);
   }
   
-
-//   login(email: string, password: string) : Observable<User>{
-//     return new Observable<User>(observer =>{
-//       setTimeout(() => {
-//         if(email == "error@email.com"){
-//           observer.error({message: 'User not found'});
-//           observer.next();
-//         }
-//         else{
-//           const user = new User();
-//           user.email = email;
-//           user.id = "userId";
-//           observer.next(user);
-//         }
-//         observer.complete
-//       }, 3000)
-//     }
-//   )}
 }

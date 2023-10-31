@@ -9,11 +9,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LoadingComponent } from './components/loading/loading.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-
+import { AvatarService } from './services/avatar.service';
+import { Capacitor } from '@capacitor/core';
+import { indexedDBLocalPersistence, initializeAuth } from 'firebase/auth';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,11 +29,19 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
     ...AppStoreModule,
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
+    provideAuth(() => {
+      if(Capacitor.isNativePlatform()){
+        return initializeAuth(getApp(), {
+          persistence: indexedDBLocalPersistence
+        });
+      }else{
+        return getAuth();
+      }
+    }),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AvatarService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

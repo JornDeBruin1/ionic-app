@@ -43,31 +43,50 @@ export class LoginPage implements OnInit{
   }
 
   async register() {
+    if (this.credentials.invalid) {
+      this.showAlert('Registration failed', 'Please fill in all the required fields.');
+      return;
+    }
+  
     const loading = await this.loadingController.create();
     await loading.present();
-
+  
     const user = await this.authService.register(this.credentials.value);
-    await loading.dismiss()
-
-    if(user){
-        this.router.navigateByUrl('/home',{replaceUrl:true});
-    }else{
-      console.log('please try again')
+    await loading.dismiss();
+  
+    if (user) {
+      this.router.navigateByUrl('/home', { replaceUrl: true });
+    } else {
+      this.showAlert('Registration failed', 'Please try again!');
+    }
+  }
+  
+  async login() {
+    if (this.credentials.invalid) {
+      this.showAlert('Login failed', 'Please fill in all the required fields.');
+      return;
+    }
+  
+    const loading = await this.loadingController.create();
+    await loading.present();
+  
+    const user = await this.authService.login(this.credentials.value);
+    await loading.dismiss();
+  
+    if (user) {
+      this.router.navigateByUrl('/home', { replaceUrl: true });
+    } else {
+      this.showAlert('Login failed', 'Please try again!');
     }
   }
 
-  async login(){
-    const loading = await this.loadingController.create();
-    await loading.present();
-
-    const user = await this.authService.login(this.credentials.value);
-    await loading.dismiss()
-
-    if(user){
-        this.router.navigateByUrl('/home',{replaceUrl:true});
-    }else{
-      console.log('login failed please try again')
-    }
+  async showAlert(header:string, message:string){
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons:['OK']
+    });
+    await alert.present();
   }
   
 }
