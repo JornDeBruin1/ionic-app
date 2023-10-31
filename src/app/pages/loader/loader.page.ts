@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loader',
-  templateUrl: 'loader.page.html',
-  styleUrls: ['loader.page.scss'],
+  templateUrl: './loader.page.html',
+  styleUrls: ['./loader.page.scss'],
 })
 export class LoaderPage implements OnInit {
 
@@ -12,7 +12,7 @@ export class LoaderPage implements OnInit {
 
   ngOnInit() {
     setTimeout(() =>{
-      this.router.navigate(['login']);
+      this.router.navigate(['/login']);
     }, 1000)
     
   }
