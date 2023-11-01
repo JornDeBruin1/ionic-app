@@ -1,24 +1,6 @@
 
-<!--<ion-content class="ion-padding">
-  <form [formGroup]="credentials" (ngSubmit)="login()">
 
-    <ion-item fill="solid" class="ion-margin-bottom">
-      <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
-    </ion-item>
-    <ion-note color="danger" slot="error"  *ngIf="(email!.dirty || email!.touched) && email!.errors">Email is invalid</ion-note>
-
-      <ion-item fill="solid" class="ion-margin-bottom">
-        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
-      </ion-item>
-      <ion-note color="danger" slot="error"  *ngIf="(password!.dirty || password!.touched) && password!.errors">Password needs to be 6 characters</ion-note>
-  
-
-    <ion-button expand="full" [disabled]="!credentials.valid" type="submit" >Login</ion-button>
-    <ion-button expand="full" type="button" (click)="register()">Register</ion-button>
-  </form>
-</ion-content> -->
-
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <div class="floating__form">
     <form [formGroup]="credentials" (ngSubmit)="login()">
       <ion-card>
@@ -30,20 +12,21 @@
           <ion-item fill="solid" class="ion-margin-bottom">
             <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
           </ion-item>
-          <ion-note color="danger" slot="error"  *ngIf="(email!.dirty || email!.touched) && email!.errors">Email is invalid</ion-note>
-          <app-error-message [field]="credentials.get('email')" *ngIf="(email!.touched)&& email!.errors" error="required" color="danger" message="email is required"></app-error-message>
-          
+          <ion-note color="danger" slot="error" *ngIf="credentials.get('email')?.dirty && credentials.get('email')?.hasError('email')">Email is invalid</ion-note>
+          <app-error-message [field]="credentials.get('email')" *ngIf="credentials.get('email')?.touched && credentials.get('email')?.hasError('required')" error="required" color="danger" message="Email is required"></app-error-message>
+
           <ion-item fill="solid" class="ion-margin-bottom">
             <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
           </ion-item>
-          <ion-note color="danger" slot="error"  *ngIf="(password!.dirty || password!.touched) && password!.errors">Password needs to be 6 characters</ion-note>
-          <app-error-message [field]="credentials.get('password')" *ngIf="(email!.touched)&& email!.errors" error="required" message="Password is required"></app-error-message>
-          
-          <ion-button type="button" [disabled]="!credentials.valid" color="dark" fill="clear" size="full" id="recoverPasswordButton">Forgot email/password</ion-button>
-          <ion-button size="full" color="success" [disabled]="!credentials.valid" type="submit" >Login</ion-button>
-          <ion-button size="full" fill="clear" color="success" type="button" (click)="register()" >Register</ion-button>
+          <ion-note color="danger" slot="error" *ngIf="credentials.get('password')?.dirty && credentials.get('password')?.hasError('minlength')">Password needs to be 6 characters</ion-note>
+          <app-error-message [field]="credentials.get('password')" *ngIf="credentials.get('password')?.touched && credentials.get('password')?.hasError('required')" error="required" message="Password is required"></app-error-message>
+
+          <ion-button type="button" [disabled]="!credentials.get('email')?.valid" color="dark" fill="clear" size="full" (click)="forgotEmailPassword()">Forgot email/password</ion-button>
+          <ion-button size="full" color="success" [disabled]="!credentials.valid" type="submit">Login</ion-button>
+          <ion-button size="full" fill="clear" color="success" type="button" (click)="toRegister()">Register</ion-button>
         </ion-card-content>
       </ion-card>
     </form>
   </div>
-</ion-content> 
+</ion-content>
+

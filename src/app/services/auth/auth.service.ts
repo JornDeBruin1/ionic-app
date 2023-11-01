@@ -1,13 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user } from '@angular/fire/auth';
-import { signOut } from 'firebase/auth';
+import { signOut,getAuth, sendPasswordResetEmail, User } from 'firebase/auth';
+import { Observable } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
+const fireAuth = getAuth();
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
 
-  constructor(private auth: Auth) { }
+export class AuthService {
+  
+
+  constructor(private auth: Auth, private authFire:AngularFireAuth ) { }
+
+  recoverEmailPassword(email: string): Observable<void> {
+    return new Observable<void>(observer => {
+    this.authFire.sendPasswordResetEmail(email).then(()=>{
+      observer.next();
+      observer.complete();
+    }).catch(error => {
+      observer.error(error);
+      observer.complete();
+    })
+    })
+  }
+  
+
 
   async register({ email, password }: { email: string, password: string }) {
     try{
