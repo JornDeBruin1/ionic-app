@@ -9,24 +9,25 @@
         </ion-card-header>
 
         <ion-card-content>
-          <ion-item fill="solid" class="ion-margin-bottom">
-            <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
           </ion-item>
+          <app-error-message [field]="credentials.get('email')" error="required" color="danger" message="Email is required"></app-error-message>
           <ion-note color="danger" slot="error" *ngIf="credentials.get('email')?.dirty && credentials.get('email')?.hasError('email')">Email is invalid</ion-note>
-          <app-error-message [field]="credentials.get('email')" *ngIf="credentials.get('email')?.touched && credentials.get('email')?.hasError('required')" error="required" color="danger" message="Email is required"></app-error-message>
-
-          <ion-item fill="solid" class="ion-margin-bottom">
-            <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+          
+          <ion-item class="ion-margin-bottom password">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
           </ion-item>
-          <ion-note color="danger" slot="error" *ngIf="credentials.get('password')?.dirty && credentials.get('password')?.hasError('minlength')">Password needs to be 6 characters</ion-note>
-          <app-error-message [field]="credentials.get('password')" *ngIf="credentials.get('password')?.touched && credentials.get('password')?.hasError('required')" error="required" message="Password is required"></app-error-message>
+          <ion-note color="danger" slot="error" *ngIf="(password!.dirty || password!.touched) && password!.errors?.['minlength']">Password needs to be 6 characters</ion-note>
+          <app-error-message [field]="credentials.get('password')" error="required" color="danger" message="password is required"></app-error-message>
 
-          <ion-button type="button" [disabled]="!credentials.get('email')?.valid" color="dark" fill="clear" size="full" (click)="forgotEmailPassword()">Forgot email/password</ion-button>
-          <ion-button size="full" color="success" [disabled]="!credentials.valid" type="submit">Login</ion-button>
-          <ion-button size="full" fill="clear" color="success" type="button" (click)="toRegister()">Register</ion-button>
+          <ion-button type="button" [disabled]="!email!.valid" color="dark" fill="clear" size="full" (click)="forgotEmailPassword()">Forgot email/password</ion-button>
+          <ion-button size="full" color="success" [disabled]="!credentials.valid" type="submit" >Login</ion-button>
+          <ion-button size="full" fill="clear" color="success" type="button" (click)="toRegister()" >Register</ion-button>
         </ion-card-content>
       </ion-card>
     </form>
   </div>
-</ion-content>
-
+</ion-content> 
