@@ -18,6 +18,9 @@ import { Capacitor } from '@capacitor/core';
 import { indexedDBLocalPersistence, initializeAuth } from 'firebase/auth';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ReactiveFormsModule } from '@angular/forms';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,12 +30,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     ReactiveFormsModule,
     ...AppStoreModule,
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => {
       if(Capacitor.isNativePlatform()){
         return initializeAuth(getApp(), {

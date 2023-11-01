@@ -5,8 +5,7 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AppState } from 'src/store/AppState';
-import { recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from 'src/store/login/login.actions';
-import { LoginPageform } from './login.page.form';
+import { recoverPassword } from 'src/store/login/login.actions';
 import { hide, show } from 'src/store/loading/loading.actions';
 import { LoginState } from 'src/store/login/LoginState';
 import { Subscription } from 'rxjs';
@@ -18,6 +17,8 @@ import { Subscription } from 'rxjs';
 })
 export class LoginPage implements OnInit, OnDestroy {
 
+
+  form!: FormGroup;
   credentials!: FormGroup; 
   loginStateSubscription!: Subscription
 
@@ -40,7 +41,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   forgotEmailPassword() {
-    this.store.dispatch(recoverPassword());
+    this.store.dispatch(recoverPassword({email: this.email?.value}));
   }
 
   ngOnInit() {
@@ -52,8 +53,8 @@ export class LoginPage implements OnInit, OnDestroy {
 
    this.loginStateSubscription = this.store.select('login').subscribe(loginState => {
       this.onIsRecoveredPassword(loginState);
-      this.onIsRecoveringPassword(loginState)
-      this.onIsRecoveringPasswordFail(loginState)
+      this.onError(loginState);
+      this.toggleLoading(loginState);
     });
   }
 
@@ -63,9 +64,17 @@ export class LoginPage implements OnInit, OnDestroy {
     }
   }
 
-  private async onIsRecoveringPasswordFail(loginState: LoginState){
+  private toggleLoading(loginState: LoginState){
+    if(loginState.isLoggingIn || loginState.isRecoveringPassword){
+      this.store.dispatch(show());
+    }
+    else{
+      this.store.dispatch(hide())
+    }
+  }
+
+  private async onError(loginState: LoginState){
     if(loginState.error){
-      this.store.dispatch(hide());
       const toaster = await this.toastController.create({
         position: "bottom",
         message: loginState.error.message,
@@ -75,28 +84,10 @@ export class LoginPage implements OnInit, OnDestroy {
 
     }
   }
-
-  private onIsRecoveringPassword(loginState: LoginState) {
-    if (loginState.isRecoveringPassword) {
-      this.store.dispatch(show());
-
-      // Ensure the 'credentials' form is initialized before accessing 'email' control
-      if (this.credentials) {
-        const emailControl = this.credentials.get('email');
-
-        if (emailControl) {
-          this.authService.recoverEmailPassword(emailControl.value).subscribe(() => {
-            this.store.dispatch(recoverPasswordSuccess());
-          },error =>{ 
-            this.store.dispatch(recoverPasswordFail({error}))
-        });
-        } 
-      }
-    }
-  }
+ 
   private async onIsRecoveredPassword(loginState: LoginState){
     if(loginState.isRecoveredPassword){
-      this.store.dispatch(hide());
+
       const toaster = await this.toastController.create({
         position: "bottom",
         message: "recovery email sent",
@@ -107,12 +98,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   async toRegister(){
-    const loading = await this.loadingController.create();
-    await loading.present();
-  
-    const user = this.router.navigateByUrl('/register', {replaceUrl: true});
-
-    await loading.dismiss();
+    this.router.navigate(['register'])
   }
 
   async register() {

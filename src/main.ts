@@ -3,13 +3,22 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import{ defineCustomElements } from '@ionic/pwa-elements/loader'
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+import { initializeFirebase } from './firebase-initialization'; // Adjust the path as needed
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+(async () => {
+  // Initialize Firebase
+  await initializeFirebase();
 
-  defineCustomElements(window)
+  // Define Ionic custom elements
+  defineCustomElements(window);
+
+  // Bootstrap the Angular application
+  platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch(err => console.log(err));
+})();

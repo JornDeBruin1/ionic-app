@@ -4,7 +4,7 @@ import { signOut,getAuth, sendPasswordResetEmail, User } from 'firebase/auth';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
-const fireAuth = getAuth();
+
 
 @Injectable({
   providedIn: 'root'

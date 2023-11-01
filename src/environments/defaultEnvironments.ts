@@ -1,3 +1,5 @@
+
+
 export const defaultEnvironment = {
     firebaseConfig: {
         apiKey: "AIzaSyDooLnvsDdSB7--fH5NMeFdlXAKI8-XZvo",
@@ -8,4 +10,6 @@ export const defaultEnvironment = {
         appId: "1:1097095616890:web:26cc30bcc21fd99ef41ec3"
     },
     production: false
+  
   };
+  
