@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from "./login.actions";
+import { login, loginSuccess, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from "./login.actions";
 import { catchError, map, of, switchMap } from "rxjs";
 import { AuthService } from "src/app/services/auth/auth.service";
-import { error } from "console";
 
 @Injectable()
 export class LoginEffects{
@@ -18,5 +17,6 @@ recoverPassword$ = createEffect(() => this.actions$.pipe(
         map(() => recoverPasswordSuccess()),catchError(error => of(recoverPasswordFail({error})))
     ))
 ))
+
 
 }

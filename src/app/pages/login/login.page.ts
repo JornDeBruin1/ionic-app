@@ -5,7 +5,7 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AppState } from 'src/store/AppState';
-import { recoverPassword } from 'src/store/login/login.actions';
+import { login, recoverPassword } from 'src/store/login/login.actions';
 import { hide, show } from 'src/store/loading/loading.actions';
 import { LoginState } from 'src/store/login/LoginState';
 import { Subscription } from 'rxjs';
@@ -40,12 +40,8 @@ export class LoginPage implements OnInit, OnDestroy {
     return this.credentials.get('password');
   }
 
-  forgotEmailPassword() {
-    this.store.dispatch(recoverPassword({email: this.email?.value}));
-  }
 
   ngOnInit() {
-    // Initialize the credentials form using the FormBuilder
     this.credentials = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -96,6 +92,10 @@ export class LoginPage implements OnInit, OnDestroy {
       toaster.present();
     }
   }
+  
+  forgotEmailPassword() {
+    this.store.dispatch(recoverPassword({email: this.email?.value}));
+  }
 
   async toRegister(){
     this.router.navigate(['register'])
@@ -119,6 +119,7 @@ export class LoginPage implements OnInit, OnDestroy {
     this.showAlert('Registration failed', 'Please try again!');
   }
 }
+
 
 async login() {
   if (this.credentials.invalid) {

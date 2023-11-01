@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { redirectUnauthorizedTo, redirectLoggedInTo, canActivate } from '@angular/fire/auth-guard'
+import { redirectUnauthorizedTo, redirectLoggedInTo, canActivate,  } from '@angular/fire/auth-guard'
 
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
@@ -37,12 +37,14 @@ const routes: Routes = [
   
   {
    path: 'pickup-call',
-   loadChildren: () => import('./pages/pickup-call/pickup-call.module').then( m => m.PickupCallPageModule) 
+   loadChildren: () => import('./pages/pickup-call/pickup-call.module').then( m => m.PickupCallPageModule),
+   ...canActivate(redirectUnauthorizedToLogin)
   },
 
   { 
     path: 'pickup-calls', 
-    loadChildren: () => import('./pages/pickup-calls/pickup-calls.module').then( m => m.PickupCallsPageModule) 
+    loadChildren: () => import('./pages/pickup-calls/pickup-calls.module').then( m => m.PickupCallsPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
   },
 
   { path: '**', 

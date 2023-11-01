@@ -32,34 +32,22 @@ export class AuthService {
   
 
 
-  async register({ email, password }: { email: string, password: string }) {
-    try{
-      await createUserWithEmailAndPassword(
-          this.auth,
-          email,
-          password
-        );
-       return user;
-    }
-    catch(e){
+  async register({ email, password }: { email: string, password: string }): Promise<User | null> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      return userCredential.user;
+    } catch (e) {
       return null;
     }
-    
-   
   }
 
-  async login({ email, password }: { email: string, password: string }) {
-    try{
-     await signInWithEmailAndPassword(
-         this.auth,
-         email,
-         password
-       );
-      return user;
-   }
-   catch(e){
-     return null;
-   }
+  async login({ email, password }: { email: string, password: string }): Promise<User | null> {
+    try {
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+      return userCredential.user;
+    } catch (e) {
+      return null;
+    }
   }
 
   logout(){

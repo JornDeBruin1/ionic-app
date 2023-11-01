@@ -120,7 +120,7 @@ describe('LoginPage', () => {
     spyOn(router, 'navigate');
 
     fixture.detectChanges();
-    store.dispatch(login())
+    store.dispatch(login({email: "valid@email.com", password: "anyPassword"}))
     store.dispatch(loginSuccess({user: new User()}))
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
@@ -135,7 +135,7 @@ it('should hide loading and show error when user couldnt login', ()=>{
   spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present:() => {}}));
 
   fixture.detectChanges();
-  store.dispatch(login());
+  store.dispatch(login({email: "valid@email.com", password: "anyPassword"}));
   store.dispatch(loginFail({error: {message: 'error message'}}))
 
   store.select('loading').subscribe(loadingState => {
