@@ -17,15 +17,18 @@ export class AuthService {
 
   recoverEmailPassword(email: string): Observable<void> {
     return new Observable<void>(observer => {
-    this.authFire.sendPasswordResetEmail(email).then(()=>{
+     this.authFire.sendPasswordResetEmail(email).then(()=>{
       observer.next();
       observer.complete();
     }).catch(error => {
       observer.error(error);
       observer.complete();
     })
-    })
+    });
   }
+
+
+  
   
 
 
