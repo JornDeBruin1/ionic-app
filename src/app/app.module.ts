@@ -38,6 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     ...AppStoreModule,
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    
     provideAuth(() => {
       if(Capacitor.isNativePlatform()){
         return initializeAuth(getApp(), {
@@ -47,6 +48,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         return getAuth();
       }
     }),
+
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
   ],

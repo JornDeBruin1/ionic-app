@@ -6,14 +6,14 @@ import { IonicModule } from '@ionic/angular';
 
 import { PickupCallsPageRoutingModule } from './pickup-calls-routing.module';
 import { PickupCallsPage } from './pickup-calls.page';
-import { ComponentsModule } from 'src/app/components/pickup-call-card/component.module';
+import { PcikupCallCardModule } from 'src/app/components/pickup-call-card/pickup-call-card.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     PickupCallsPageRoutingModule,
-    ComponentsModule
+    PcikupCallCardModule
   ],
   declarations: [
     PickupCallsPage

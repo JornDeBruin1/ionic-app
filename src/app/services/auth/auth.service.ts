@@ -3,6 +3,7 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user 
 import { signOut,getAuth, sendPasswordResetEmail, User } from 'firebase/auth';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { UserRegister } from 'src/app/model/user/UserRegister';
 
 
 
@@ -14,6 +15,20 @@ export class AuthService {
   
 
   constructor(private auth: Auth, private authFire:AngularFireAuth ) { }
+
+  register(userRegister: UserRegister) : Observable<void>{
+    return new Observable<void>(observer => {
+      setTimeout(()=>{
+        if(userRegister.email == "error@email.com"){
+          observer.error({message:"email already registered"});
+        }
+        else{
+          observer.next();
+        }
+        observer.complete();
+      },3000)
+    })
+  }
 
   recoverEmailPassword(email: string): Observable<void> {
     return new Observable<void>(observer => {
@@ -32,14 +47,14 @@ export class AuthService {
   
 
 
-  async register({ email, password }: { email: string, password: string }): Promise<User | null> {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-      return userCredential.user;
-    } catch (e) {
-      return null;
-    }
-  }
+  // async register({ email, password }: { email: string, password: string }): Promise<User | null> {
+  //   try {
+  //     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+  //     return userCredential.user;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
 
   async login({ email, password }: { email: string, password: string }): Promise<User | null> {
     try {

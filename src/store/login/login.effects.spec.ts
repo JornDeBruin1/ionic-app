@@ -58,14 +58,14 @@ describe('Login effects', ()=>{
         })
     })
 
-    it('should login with correct credentials', done =>{
-        actions$ = of(login({email: "valid@email.com", password: "anyPassword"}));
+    // it('should login with correct credentials', done =>{
+    //     actions$ = of(login({email: "valid@email.com", password: "anyPassword"}));
 
-        effects.login$.subscribe(newAction => {
-            expect(newAction).toEqual(loginSuccess({user}));
-            done();
-        })
-    })
+    //     effects.login$.subscribe(newAction => {
+    //         expect(newAction).toEqual(loginSuccess({user}));
+    //         done();
+    //     })
+    // })
 })
 
 

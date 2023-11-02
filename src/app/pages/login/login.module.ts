@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 import { LoginPage } from './login.page';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { ErrorMessageModule } from 'src/app/components/error-message/error-message.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     IonicModule,
     LoginPageRoutingModule,
     ReactiveFormsModule,
-    SharedModule,
+    ErrorMessageModule,
   ],
   declarations: [LoginPage],
 })

@@ -10,7 +10,9 @@ import { PickupCallCardComponent } from 'src/app/components/pickup-call-card/pic
         FormsModule,
         IonicModule, 
     ],
-    declarations:[PickupCallCardComponent],
+    declarations:[
+        PickupCallCardComponent
+    ],
     exports:[PickupCallCardComponent]
 })
-export class ComponentsModule{}
+export class PcikupCallCardModule{}
