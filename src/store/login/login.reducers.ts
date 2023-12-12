@@ -38,13 +38,16 @@ const reducer = createReducer(initialState,
             isLoggingIn: true
         }
     }),
-    on(loginSuccess, currentState => {
-        return {
-            ...currentState,
-            isLoggedIn: true,
-            isLoggingIn: false
+    on(loginSuccess, (state, { user }) => {
+        console.log('loginSuccess action dispatched:', user);
+        return{
+        ...state,
+        user: user, // Set the user data when login is successful
+        isLoggedIn: true, // Update other login-related flags here
+        isLoggingIn: false,
+        error: null, // Reset the error state
         }
-    }),
+      }),
     on(loginFail, (currentState, action) => {
         return {
             ...currentState,

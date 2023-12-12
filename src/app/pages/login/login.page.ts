@@ -5,10 +5,12 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AppState } from 'src/store/AppState';
-import { login, recoverPassword } from 'src/store/login/login.actions';
+import { login, loginSuccess, recoverPassword } from 'src/store/login/login.actions';
 import { hide, show } from 'src/store/loading/loading.actions';
 import { LoginState } from 'src/store/login/LoginState';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/model/user/User';
+import { LoginPageform } from './login.page.form';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +20,9 @@ import { Subscription } from 'rxjs';
 export class LoginPage implements OnInit, OnDestroy {
 
 
-  form!: FormGroup;
   credentials!: FormGroup; 
   loginStateSubscription!: Subscription
+ 
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +32,9 @@ export class LoginPage implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private toastController: ToastController,
-  ) {}
+  ) {
+    this.credentials = new LoginPageform(this.fb).createForm();
+  }
 
   get email() {
     return this.credentials.get('email');
@@ -42,15 +46,15 @@ export class LoginPage implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.credentials = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-
+   
    this.loginStateSubscription = this.store.select('login').subscribe(loginState => {
       this.onIsRecoveredPassword(loginState);
+
+      this.onIsLoggingIn(loginState);
+
       this.onError(loginState);
       this.toggleLoading(loginState);
+     
     });
   }
 
@@ -118,8 +122,36 @@ export class LoginPage implements OnInit, OnDestroy {
   } else {
     this.showAlert('Registration failed', 'Please try again!');
   }
+  
 }
 
+
+private onIsLoggingIn(loginState: LoginState) {
+    if (loginState.isLoggingIn) {
+        const email = this.email?.value;
+        const password = this.password?.value;
+        console.log('Email Login:', email);
+        console.log('Password Login:', password);
+        try {
+            const user = this.authService.login({ email, password });
+            if(user != null) {
+                console.log('Before dispatching loginSuccess action');
+                this.store.dispatch(loginSuccess({ user: new User }));
+            } else {
+                console.log(this.email?.value);
+                console.log(this.password?.value);
+
+                this.showAlert('Login failed', 'User authentication failed.');
+            }
+        } catch (error) {
+            console.log(error);
+
+            const errorMessage = (error as Error).message || 'An unexpected error occurred';
+
+            this.showAlert('Login failed', errorMessage);
+        }
+    }
+}
 
 async login() {
   if (this.credentials.invalid) {
@@ -136,7 +168,7 @@ async login() {
   if (user) {
     this.router.navigateByUrl('/home', { replaceUrl: true });
   } else {
-    this.showAlert('Login failed', 'Please try again!');
+    this.showAlert('Login failed', 'Email or password are invalid');
   }
 }
 

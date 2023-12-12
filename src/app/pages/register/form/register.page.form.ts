@@ -25,12 +25,13 @@ export class RegisterPageForm{
                 zipCode:['', [Validators.required]],
                 state:['', [Validators.required]],
                 city:['', [Validators.required]],
-            })
-    });
+            }),
+           
+        });
 
-    form.get('repeatPassword')?.setValidators(matchPasswordAndRepeatPassword(form))
+     form.get('repeatPassword')?.setValidators(matchPasswordAndRepeatPassword(form))
 
-    return form
+        return form
     }
 
     getForm() : FormGroup{
@@ -39,7 +40,7 @@ export class RegisterPageForm{
 }
 
 
-function matchPasswordAndRepeatPassword(form: FormGroup) : ValidatorFn{
+    function matchPasswordAndRepeatPassword(form: FormGroup) : ValidatorFn{
     const password = form.get('password');
     const repeatPassword = form.get('repeatPassword');
 

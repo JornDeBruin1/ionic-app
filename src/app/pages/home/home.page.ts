@@ -35,7 +35,7 @@ export class HomePage implements OnInit {
 
   async logout(){
      await this.authService.logout();
-     this.router.navigateByUrl('', {replaceUrl: true})
+     this.router.navigateByUrl('login', {replaceUrl: true})
 }
   async changeImage(){
   const image = await Camera.getPhoto({
